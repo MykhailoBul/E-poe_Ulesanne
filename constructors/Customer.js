@@ -25,6 +25,22 @@ class Customer {
             order.printOrder();
         });
     }
+    toggleFavorites(product) {
+        const existingItem = this.favorites.find(
+            item => item.product.id === product.id
+        );
+        if (existingItem) {
+            this.favorites = this.favorites.filter(
+                item => item.product.id !== product.id
+            );
+        } else {
+            this.favorites.push(product);
+        }
+    }
+    getAllFavorites() {
+        return this.favorites;
+    }
 }
 
 export default Customer;
+export const customerConstructor = new Customer("Mike");

@@ -1,23 +1,18 @@
-export const displayFavoritesView = (favorites) => {
-    const container = document.getElementById('favourite-view');
+import { customerConstructor } from '../constructors/Customer.js';
+
+export const displayFavoritesView = () => {
+    const favorites = customerConstructor.getAllFavorites();
+
+    const container = document.getElementById('main-container');
     container.innerHTML = '<h2>Lemmikud</h2>';
 
-    const favoritesContainer = document.createElement('div');
-    favoritesContainer.classList.add('favorites-container');
-
-    if (favorites.length === 0) {
-        favoritesContainer.innerHTML = '<p>Teie lemmikud on tühjad.</p>';
-    } else {
-        favorites.forEach(favorite => {
-            const favoriteItem = document.createElement('div');
-            favoriteItem.classList.add('favorite-item');
-            favoriteItem.innerHTML = `
-                <p>${favorite.title}</p>
-                <p>Hind: $${favorite.price.toFixed(2)}</p>
-            `;
-            favoritesContainer.appendChild(favoriteItem);
-        });
-    }
-
-    container.appendChild(favoritesContainer);
+    favorites.forEach(favorite => {
+        const favoriteItemElement = document.createElement('div');
+        favoriteItemElement.classList.add('favorite-item');
+        favoriteItemElement.innerHTML = `
+            <p>${favorite.product.title}</p>
+            <p>Hind: $${favorite.product.price.toFixed(2)}</p>
+        `;
+        container.appendChild(favoriteItemElement);
+    });
 };
