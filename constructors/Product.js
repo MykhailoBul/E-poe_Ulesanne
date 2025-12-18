@@ -4,6 +4,7 @@ class Product {
         this.title = title;
         this.price = price;
         this.category = category;
+        this.imageUrl = imageUrl;
     }
 
     describe() {

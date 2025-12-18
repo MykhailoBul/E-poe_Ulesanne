@@ -1,27 +1,45 @@
-export const displayCartView = (cart) => {
-    const container = document.getElementById('cart-view');
-    container.innerHTML = '<h2>Ostukorv</h2>';
+import { cartConstructor } from "../constructors/Cart.js";
 
-    const cartContainer = document.createElement('div');
-    cartContainer.classList.add('cart-container');
+const VAT = 0.22;
 
-    if (cart.items.length === 0) {
-        cartContainer.innerHTML = '<p>Teie ostukorv on tühi.</p>';
-    } else {
-        cart.items.forEach(item => {
-            const itemElement = document.createElement('div');
-            itemElement.classList.add('cart-item');
-            itemElement.innerHTML = `
-                <p>${item.product.title} x${item.quantity}</p>
-                <p>Hind: $${(item.product.price * item.quantity).toFixed(2)}</p>
-            `;
-            cartContainer.appendChild(itemElement);
-        });
+export const displayCartView = () => {
+    const container = document.getElementById("cart-view");
+    container.innerHTML = "<h2>Ostukorv</h2>";
 
-        const totalElement = document.createElement('div');
-        totalElement.innerHTML = `<p>Kogusumma: $${cart.calculateTotal().toFixed(2)}</p>`;
-        cartContainer.appendChild(totalElement);
-    }
+    cartConstructor.items.forEach(item => {
+        const div = document.createElement("div");
 
-    container.appendChild(cartContainer);
+        div.innerHTML = `
+            <p>${item.product.title}</p>
+            <button>-</button>
+            ${item.quantity}
+            <button>+</button>
+            <button>❌</button>
+        `;
+
+        div.children[1].onclick = () =>
+            cartConstructor.updateProductQuantity(item.product.id, -1);
+        div.children[3].onclick = () =>
+            cartConstructor.updateProductQuantity(item.product.id, 1);
+        div.children[4].onclick = () =>
+            cartConstructor.removeProduct(item.product.id);
+
+        container.appendChild(div);
+    });
+
+    const net = cartConstructor.calculateTotal();
+    const gross = net * (1 + VAT);
+
+    container.innerHTML += `
+        <p>Netto: $${net.toFixed(2)}</p>
+        <p>Käibemaks: $${(gross - net).toFixed(2)}</p>
+        <p>Kokku: $${gross.toFixed(2)}</p>
+        <button id="clear">Tühjenda</button>
+    `;
+
+    document.getElementById("clear").onclick = () => {
+        cartConstructor.clear();
+        displayCartView();
+    };
 };
+

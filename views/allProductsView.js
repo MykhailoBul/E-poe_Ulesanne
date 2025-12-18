@@ -1,28 +1,41 @@
-export const displayAllProductsView = (products) => {
-    const container = document.getElementById('main-container');
-    container.innerHTML = '<h2>Tooted</h2>';
+import { navigate } from "../router.js";
+import { cartConstructor } from "../constructors/Cart.js";
+import { customerConstructor } from "../constructors/Customer.js";
 
-    const productsContainer = document.createElement('div');
-    productsContainer.classList.add('products-container');
+export const displayAllProductsView = (products) => {
+    const container = document.getElementById("main-container");
+    container.innerHTML = "<h2>Tooted</h2>";
 
     products.forEach(product => {
-        const productCard = document.createElement('div');
-        productCard.classList.add('product');
+        const card = document.createElement("div");
+        card.className = "product";
 
-        productCard.innerHTML = `
+        const favBtn = document.createElement("button");
+        favBtn.textContent = customerConstructor
+            .getAllFavorites()
+            .some(p => p.id === product.id)
+            ? "Eemalda lemmikutest"
+            : "Lisa lemmikutesse";
+
+        favBtn.onclick = () => {
+            customerConstructor.toggleFavorites(product);
+            displayAllProductsView(products);
+        };
+
+        const cartBtn = document.createElement("button");
+        cartBtn.textContent = "Lisa ostukorvi";
+        cartBtn.onclick = () => cartConstructor.addProduct(product);
+
+        card.onclick = () => navigate("productDetail", product);
+
+        card.innerHTML = `
             <h3>${product.title}</h3>
-            <p>Kategooria: ${product.category}</p>
-            <p>Hind: $${product.price.toFixed(2)}</p>
-            <button id="favourites${product.id}">Lisa lemmikutesse</button>
+            <p>${product.category}</p>
+            <p>$${product.price.toFixed(2)}</p>
         `;
 
-        const cartButton = document.createElement('button');
-        cartButton.textContent = "Lisa ostukorvi";
-
-        productCard.appendChild(cartButton);
-
-        productsContainer.append(productCard);
+        card.append(cartBtn, favBtn);
+        container.appendChild(card);
     });
+};
 
-    container.append(productsContainer);
-}

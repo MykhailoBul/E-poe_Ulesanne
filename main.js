@@ -1,7 +1,6 @@
-import Product from './constructors/Product.js';
+import { Product } from './constructors/Product.js';
 import { displayAllProductsView } from "./views/allProductsView.js"; 
 import { navigate } from './router.js';
-
 
 const products = [
     new Product(1, 'Laptop', 999.99, 'Tech', 'images/laptop.avif'),
@@ -10,17 +9,18 @@ const products = [
     new Product(4, 'Smartwatch', 299.99, 'Wearables', 'images/smartwatch.avif'),
 ];
 
-const initApp = async () => { 
-    const logo = document.querySelector('.header h1');
-    logo.onclick = () => initApp();
+const initApp = () => {
+    const homeButton = document.getElementById('home-button');
+    homeButton.style.cursor = 'pointer';
+    homeButton.onclick = () => initApp();
 
-    const favouritesButton = document.getElementById('favourites');
-    favouritesButton.onclick = () => navigate('favorites');
+    const favoritesButton = document.getElementById('favourites');
+    favoritesButton.onclick = () => navigate('favorites');
 
     const cartButton = document.getElementById('cart-btn');
     cartButton.onclick = () => navigate('cart');
 
     displayAllProductsView(products);
-}; 
+};
 
 document.addEventListener('DOMContentLoaded', initApp);
