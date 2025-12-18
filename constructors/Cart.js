@@ -2,6 +2,9 @@ class Cart {
     constructor() {
         this.items = [];
     }
+    getAllProducts() {
+        return this.items;
+    }
 
     addProduct(product, quantity = 1) {
         const item = this.items.find(i => i.product.id === product.id);
