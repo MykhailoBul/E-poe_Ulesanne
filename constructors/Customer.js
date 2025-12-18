@@ -1,45 +1,48 @@
-import Order from './Order.js';
-
-class Customer {
-    constructor(name) {
-        this.name = name;
-        this.orderHistory = [];
-        this.favorites = [];
+class Cart {
+    constructor() {
+        this.items = [];
     }
 
-    placeOrder(cart) {
-        const order = new Order(cart);
-        this.orderHistory.push(order);
-        return order;
-    }
-
-    printOrderHistory() {
-        console.log(`Order History for ${this.name}:`);
-
-        if (this.orderHistory.length === 0) {
-            console.log("Tellimusi ei ole.");
-            return;
-        }
-
-        this.orderHistory.forEach((order, index) => {
-            console.log(`Order ${index + 1}:`);
-            order.printOrder();
-        });
-    }
-        toggleFavorites(product) {
-        const index = this.favorites.findIndex(p => p.id === product.id);
-        if (index !== -1) {
-            this.favorites.splice(index, 1);
+    addProduct(product, quantity = 1) {
+        const item = this.items.find(i => i.product.id === product.id);
+        if (item) {
+            item.quantity += quantity;
         } else {
-            this.favorites.push(product);
+            this.items.push({ product, quantity });
         }
     }
 
-    getAllFavorites() {
-        return this.favorites;
+    updateProductQuantity(productId, delta) {
+        const item = this.items.find(i => i.product.id === productId);
+        if (!item) return;
+
+        item.quantity += delta;
+
+        if (item.quantity <= 0) {
+            this.removeProduct(productId);
+        }
+    }
+
+    removeProduct(productId) {
+        this.items = this.items.filter(i => i.product.id !== productId);
+    }
+
+    clear() {
+        this.items = [];
+    }
+
+    calculateTotal() {
+        return this.items.reduce(
+            (sum, i) => sum + i.product.price * i.quantity,
+            0
+        );
+    }
+
+    get totalItems() {
+        return this.items.reduce((sum, i) => sum + i.quantity, 0);
     }
 }
 
-export default Customer;
-export const customerConstructor = new Customer("Mike");
+export default Cart;
+export const cartConstructor = new Cart();
 
