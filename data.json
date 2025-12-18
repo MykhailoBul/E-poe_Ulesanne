@@ -1,0 +1,24 @@
+[{
+    "id": 1,
+    "name": "Laptop",
+    "prise":  999.99,
+    "category": "Tech"
+},
+{
+    "id": 2,
+    "name": "Smartphone",
+    "prise":  699.99,
+    "category": "Tech"
+},
+{
+    "id": 3,
+    "name": "Headphones",
+    "prise":  1299.99,
+    "category": "Audio"
+},
+{
+    "id": 4,
+    "name": "Smartwatch",
+    "prise":  299.99,
+    "category": "Wearables"
+}]

@@ -6,36 +6,39 @@ export const displayAllProductsView = (products) => {
     const container = document.getElementById("main-container");
     container.innerHTML = "<h2>Tooted</h2>";
 
-    products.forEach(product => {
+    const productsContainer = document.createElement("div");
+    productsContainer.classList.add("products-container");
+
+    products.forEach((product => {
         const card = document.createElement("div");
         card.className = "product";
-
-        const favBtn = document.createElement("button");
-        favBtn.textContent = customerConstructor
-            .getAllFavorites()
-            .some(p => p.id === product.id)
-            ? "Eemalda lemmikutest"
-            : "Lisa lemmikutesse";
-
-        favBtn.onclick = () => {
-            customerConstructor.toggleFavorites(product);
-            displayAllProductsView(products);
-        };
-
-        const cartBtn = document.createElement("button");
-        cartBtn.textContent = "Lisa ostukorvi";
-        cartBtn.onclick = () => cartConstructor.addProduct(product);
-
-        card.onclick = () => navigate("productDetail", product);
-
         card.innerHTML = `
-            <h3>${product.title}</h3>
+            <h3>${product.name}</h3>
             <p>${product.category}</p>
             <p>$${product.price.toFixed(2)}</p>
-        `;
+            <button id="favourites${product.id}" class="favourites-btn">${customerConstructor.isFavorite(product) ? 'Eemalda lemmikutest' : 'Lisa lemmikutesse'}
+            </button>`;
+        const cartBtn = document.createElement("button");
+        cartBtn.textContent = "Lisa ostukorvi";
+        cartBtn.onclick = (e) => { 
+            e.stopPropagation();
+            cartConstructor.addProduct(product);
+        };
+        card.appendChild(cartBtn);
 
-        card.append(cartBtn, favBtn);
-        container.appendChild(card);
-    });
-};
+        card.addEventListener("click", (event) => {
+            if (event.target.id == 'favourites' + product.id) {
+                const favoritesButton = event.target;
+                favoritesButton.classList.toggle('added-to-favorites');
+                favoritesButton.textContent = favoritesButton.classList.contains('added-to-favorites') ? 'Eemalda lemmikutest' : 'Lisa lemmikutesse';
+                customerConstructor.toggleFavorite(product);
+            } else {
+                navigate("product-detail", product);
+            }
+        });
 
+        productsContainer.appendChild(card);
+    }));
+
+    container.appendChild(productsContainer);
+}

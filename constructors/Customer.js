@@ -42,3 +42,4 @@ class Customer {
 
 export default Customer;
 export const customerConstructor = new Customer("Mike");
+
