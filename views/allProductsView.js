@@ -2,43 +2,47 @@ import { navigate } from "../router.js";
 import { cartConstructor } from "../constructors/Cart.js";
 import { customerConstructor } from "../constructors/Customer.js";
 
+const updateCartCount = () => {
+    document.getElementById("cart-count").textContent =
+        cartConstructor.totalItems;
+};
+
 export const displayAllProductsView = (products) => {
     const container = document.getElementById("main-container");
     container.innerHTML = "<h2>Tooted</h2>";
 
-    const productsContainer = document.createElement("div");
-    productsContainer.classList.add("products-container");
-
-    products.forEach((product => {
+    products.forEach(product => {
         const card = document.createElement("div");
         card.className = "product";
+
         card.innerHTML = `
-            <h3>${product.name}</h3>
+            <h3>${product.title}</h3>
+            <img src="${product.imageUrl}" alt="${product.title}" width="150">
             <p>${product.category}</p>
             <p>$${product.price.toFixed(2)}</p>
-            <button id="favourites${product.id}" class="favourites-btn">${customerConstructor.isFavorite(product) ? 'Eemalda lemmikutest' : 'Lisa lemmikutesse'}
-            </button>`;
-        const cartBtn = document.createElement("button");
-        cartBtn.textContent = "Lisa ostukorvi";
-        cartBtn.onclick = (e) => { 
+
+            <button class="fav-btn">
+                ${customerConstructor.isFavorite(product)
+                    ? "Eemalda lemmikutest"
+                    : "Lisa lemmikutesse"}
+            </button>
+            <button class="cart-btn">Lisa ostukorvi</button>
+        `;
+
+        card.querySelector(".fav-btn").onclick = (e) => {
+            e.stopPropagation();
+            customerConstructor.toggleFavorites(product);
+            displayAllProductsView(products);
+        };
+
+        card.querySelector(".cart-btn").onclick = (e) => {
             e.stopPropagation();
             cartConstructor.addProduct(product);
+            updateCartCount();
         };
-        card.appendChild(cartBtn);
 
-        card.addEventListener("click", (event) => {
-            if (event.target.id == 'favourites' + product.id) {
-                const favoritesButton = event.target;
-                favoritesButton.classList.toggle('added-to-favorites');
-                favoritesButton.textContent = favoritesButton.classList.contains('added-to-favorites') ? 'Eemalda lemmikutest' : 'Lisa lemmikutesse';
-                customerConstructor.toggleFavorite(product);
-            } else {
-                navigate("product-detail", product);
-            }
-        });
+        card.onclick = () => navigate("productDetail", product);
 
-        productsContainer.appendChild(card);
-    }));
-
-    container.appendChild(productsContainer);
-}
+        container.appendChild(card);
+    });
+};

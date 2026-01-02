@@ -1,28 +1,29 @@
-// import { Product } from './constructors/Product.js';
-import { displayAllProductsView } from "./views/allProductsView.js"; 
-import { navigate } from './router.js';
-import { fetchProducts } from './api.js';
+import { displayAllProductsView } from "./views/allProductsView.js";
+import { navigate } from "./router.js";
+import { fetchProducts } from "./api.js";
+import { cartConstructor } from "./constructors/Cart.js";
 
-// const products = [
-//     new Product(1, 'Laptop', 999.99, 'Tech', 'images/laptop.avif'),
-//     new Product(2, 'Smartphone', 699.99, 'Tech', 'images/smartphone.avif'),
-//     new Product(3, 'Headphones', 199.99, 'Audio', 'images/headphones.webp'),
-//     new Product(4, 'Smartwatch', 299.99, 'Wearables', 'images/smartwatch.avif'),
-// ];
+let products = [];
 
-const initApp = () => {
-    const homeButton = document.getElementById('home-button');
-    homeButton.style.cursor = 'pointer';
-    homeButton.onclick = () => initApp();
+const updateCartCount = () => {
+    document.getElementById("cart-count").textContent =
+        cartConstructor.totalItems;
+};
 
-    const favoritesButton = document.getElementById('favourites');
-    favoritesButton.onclick = () => navigate('favorites');
+const initApp = async () => {
+    products = await fetchProducts();
 
-    const cartButton = document.getElementById('cart-btn');
-    cartButton.onclick = () => navigate('cart');
+    document.getElementById("home-button").onclick = () =>
+        displayAllProductsView(products);
 
-    const products = await fetchProducts();
+    document.getElementById("favourites").onclick = () =>
+        navigate("favorites");
+
+    document.getElementById("cart-btn").onclick = () =>
+        navigate("cart");
+
+    updateCartCount();
     displayAllProductsView(products);
 };
 
-document.addEventListener('DOMContentLoaded', initApp);
+document.addEventListener("DOMContentLoaded", initApp);

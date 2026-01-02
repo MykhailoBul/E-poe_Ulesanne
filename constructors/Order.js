@@ -10,4 +10,5 @@ class Order {
         console.log(`Total Price: $${this.cart.calculateTotal().toFixed(2)}`);
     }
 }
+
 export default Order;

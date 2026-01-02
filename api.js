@@ -1,18 +1,15 @@
-import { Product} from './constructors/Product.js';
+import Product from './constructors/Product.js';
 
 export const fetchProducts = async () => {
-    try{
-        const data = await fetch('/data.json');
-        const jsonData = await data.json();
-        const constructedData = jsonData.map(product => new Product(
-            product.id,
-            product.name,
-            product.price,
-            product.category,
-            product.image
-        ));
-        return constructedData;
+    try {
+        const response = await fetch('./data.json');
+        const data = await response.json();
+
+        return data.map(p =>
+            new Product(p.id, p.name, p.price, p.category, p.image)
+        );
     } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error("Fetch error:", error);
+        return [];
     }
 };

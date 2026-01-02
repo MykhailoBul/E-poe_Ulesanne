@@ -2,6 +2,7 @@ class Cart {
     constructor() {
         this.items = [];
     }
+
     getAllProducts() {
         return this.items;
     }

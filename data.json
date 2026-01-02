@@ -1,24 +1,31 @@
-[{
-    "id": 1,
-    "name": "Laptop",
-    "prise":  999.99,
-    "category": "Tech"
-},
-{
-    "id": 2,
-    "name": "Smartphone",
-    "prise":  699.99,
-    "category": "Tech"
-},
-{
-    "id": 3,
-    "name": "Headphones",
-    "prise":  1299.99,
-    "category": "Audio"
-},
-{
-    "id": 4,
-    "name": "Smartwatch",
-    "prise":  299.99,
-    "category": "Wearables"
-}]
+[
+    {
+        "id": 1,
+        "name": "Laptop",
+        "price": 999.99,
+        "category": "Tech",
+        "image": "./images/laptop.avif"
+    },
+    {
+        "id": 2,
+        "name": "Smartphone",
+        "price": 699.99,
+        "category": "Tech",
+        "image": "./images/smartphone.avif"
+    },
+    {
+        "id": 3,
+        "name":"Headphones",
+        "price": 1299.99,
+        "category": "Audio",
+        "image": "./images/headphones.webp"
+    },
+    {
+        "id": 4,
+        "name": "Smartwatch",
+        "price":  299.99,
+        "category": "Wearables",
+        "image": "./images/smartwatch.jpg"
+    }
+]
+  
