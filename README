@@ -1,0 +1,14 @@
+## Mis on tehtud 
+- Tagaserver rakendatud Node.js Expressil 
+- Lisatud GET-marsruudid toodete, kategooriate ja toote ID-de jaoks 
+- Rakendatud lemmikud kliendi ID järgi salvestamisega 
+- Kasutab kliendi jaoks seansse ja ostukorvi jaoks localStorage'i 
+- Esiserver integreeritud tagaserveri API-ga 
+
+## Sõlme versioon: 
+Node.js v18 
+
+## Kuidas projekt töötab: 
+Esiserver taotleb andmeid REST API kaudu. 
+Server tagastab tooted JSON-failist. 
+Lemmikud ja ostukorv salvestatakse lehe värskendamise vahel.
