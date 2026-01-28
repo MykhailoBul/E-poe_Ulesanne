@@ -1,6 +1,15 @@
 class Cart {
     constructor() {
-        this.items = [];
+        this.items = JSON.parse(
+            localStorage.getItem("cart")
+        ) || [];
+    }
+
+    save() {
+        localStorage.setItem(
+            "cart",
+            JSON.stringify(this.items)
+        );
     }
 
     getAllProducts() {
@@ -14,6 +23,7 @@ class Cart {
         } else {
             this.items.push({ product, quantity });
         }
+        this.save();
     }
 
     updateProductQuantity(productId, delta) {
@@ -25,14 +35,17 @@ class Cart {
         if (item.quantity <= 0) {
             this.removeProduct(productId);
         }
+        this.save();
     }
 
     removeProduct(productId) {
         this.items = this.items.filter(i => i.product.id !== productId);
+        this.save();
     }
 
     clear() {
         this.items = [];
+        this.save();
     }
 
     calculateTotal() {

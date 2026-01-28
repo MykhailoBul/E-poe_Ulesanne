@@ -1,11 +1,11 @@
 {
   "name": "e-poe_ulesannebeta",
   "version": "1.0.0",
-  "description": "",
+  "description": "- Tagaserver rakendatud Node.js Expressil \r - Lisatud GET-marsruudid toodete, kategooriate ja toote ID-de jaoks \r - Rakendatud lemmikud kliendi ID järgi salvestamisega \r - Kasutab kliendi jaoks seansse ja ostukorvi jaoks localStorage'i \r - Esiserver integreeritud tagaserveri API-ga",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "node --watch server.js"
   },
   "keywords": [],
   "author": "",
@@ -13,5 +13,13 @@
   "dependencies": {
     "express": "^5.2.1",
     "express-session": "^1.19.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MykhailoBul/E-poe_Ulesanne.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MykhailoBul/E-poe_Ulesanne/issues"
+  },
+  "homepage": "https://github.com/MykhailoBul/E-poe_Ulesanne#readme"
 }

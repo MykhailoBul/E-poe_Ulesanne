@@ -4,7 +4,9 @@ class Customer {
     constructor(name) {
         this.name = name;
         this.orderHistory = [];
-        this.favorites = [];
+        this.favorites = JSON.parse(
+            localStorage.getItem("favorites")
+        ) || [];
     }
 
     placeOrder(cart) {
@@ -15,12 +17,19 @@ class Customer {
 
     toggleFavorites(product) {
         const index = this.favorites.findIndex(p => p.id === product.id);
+
         if (index !== -1) {
             this.favorites.splice(index, 1);
         } else {
             this.favorites.push(product);
         }
+
+        localStorage.setItem(
+            "favorites",
+            JSON.stringify(this.favorites)
+        );
     }
+
 
     isFavorite(product) {
         return this.favorites.some(p => p.id === product.id);
